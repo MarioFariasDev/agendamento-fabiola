@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fabiola Alcântara | Designer de Sobrancelhas</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script defer src="script.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-pink-50 text-gray-800">
+
+  <!-- HEADER / HERO SECTION -->
+  <header class="bg-pink-200 p-6 text-center">
+    <h1 class="text-3xl font-bold">Fabiola Alcântara</h1>
+    <p class="text-lg">Designer de Sobrancelhas | Realce sua beleza natural</p>
+    <a href="#agendamento" class="mt-4 inline-block bg-pink-600 text-white px-4 py-2 rounded">Agendar agora</a>
+  </header>
+
+  <!-- SERVIÇOS -->
+  <section class="p-6" id="servicos">
+    <h2 class="text-2xl font-semibold mb-4">Serviços</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-bold text-lg">Design de Sobrancelhas</h3>
+        <p>R$ 40</p>
+        <a href="https://wa.me/559295370896?text=Olá!%20Quero%20agendar%20Design%20de%20Sobrancelhas." class="text-pink-600 font-semibold">Agendar</a>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-bold text-lg">Henna</h3>
+        <p>R$ 25</p>
+        <a href="https://wa.me/559295370896?text=Olá!%20Gostaria%20de%20agendar%20Henna." class="text-pink-600 font-semibold">Agendar</a>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-bold text-lg">Design + Henna</h3>
+        <p>R$ 60</p>
+        <a href="https://wa.me/559295370896?text=Olá!%20Quero%20fazer%20Design%20com%20Henna." class="text-pink-600 font-semibold">Agendar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="p-6 bg-pink-100" id="agendamento">
+    <h2 class="text-2xl font-semibold mb-4">Agendamento Inteligente</h2>
+    <form id="form-agendamento" class="bg-white p-4 rounded shadow grid gap-4">
+      <input type="text" id="nome" placeholder="Seu nome" class="p-2 border rounded" required>
+      <input type="date" id="data" class="p-2 border rounded" required>
+      <input type="time" id="hora" class="p-2 border rounded" required>
+      <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded">Confirmar</button>
+    </form>
+  </section>
+
+  <!-- GALERIA -->
+  <section class="p-6" id="galeria">
+    <h2 class="text-2xl font-semibold mb-4">Antes e Depois</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      <img src="img/antes1.jpg" alt="Antes" class="rounded shadow">
+      <img src="img/depois1.jpg" alt="Depois" class="rounded shadow">
+      <img src="img/antes2.jpg" alt="Antes" class="rounded shadow">
+      <img src="img/depois2.jpg" alt="Depois" class="rounded shadow">
+    </div>
+  </section>
+
+  <!-- LINKTREE -->
+  <section class="p-6 bg-pink-100" id="linktree">
+    <h2 class="text-2xl font-semibold mb-4">Meus Canais</h2>
+    <div class="flex flex-col gap-3">
+      <a href="https://wa.me/559295370896" class="bg-white p-2 rounded shadow">WhatsApp</a>
+      <a href="https://instagram.com/SEUPERFIL" class="bg-white p-2 rounded shadow">Instagram</a>
+      <a href="mailto:seuemail@email.com" class="bg-white p-2 rounded shadow">Email</a>
+    </div>
+  </section>
+
+  <!-- LEADS / SORTEIO -->
+  <section class="p-6" id="sorteio">
+    <h2 class="text-2xl font-semibold mb-4">Participe do Sorteio!</h2>
+    <form id="form-sorteio" class="bg-white p-4 rounded shadow grid gap-4">
+      <input type="text" placeholder="Nome completo" class="p-2 border rounded" required>
+      <input type="tel" placeholder="WhatsApp" class="p-2 border rounded" required>
+      <button class="bg-pink-600 text-white px-4 py-2 rounded">Participar</button>
+    </form>
+  </section>
+
+  <!-- CHATBOT SIMPLES -->
+  <div id="chatbot" class="fixed bottom-4 right-4 bg-white p-4 rounded shadow w-72 hidden">
+    <p class="font-semibold">Oi! Posso te ajudar?</p>
+    <p class="text-sm">Clique aqui para agendar, tirar dúvidas ou saber mais sobre nossos serviços.</p>
+    <a href="https://wa.me/559295370896" class="block mt-2 bg-pink-600 text-white text-center px-4 py-2 rounded">Falar no WhatsApp</a>
+  </div>
+  <button onclick="document.getElementById('chatbot').classList.toggle('hidden')" class="fixed bottom-4 right-4 bg-pink-600 text-white px-4 py-2 rounded-full shadow-lg">💬</button>
+
+</body>
+</html>
