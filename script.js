@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await set(agRef, { nome, servico, data, hora });
 
       const msg = `Olá! Meu nome é ${nome}. Gostaria de agendar "${servico}" no dia ${data}, às ${hora}.`;
-      window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`, "_blank");
+      window.location.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`;
 
       form.reset();
     });
@@ -161,7 +161,19 @@ document.addEventListener("DOMContentLoaded", () => {
           });
 
           const msg = `Olá! Meu nome é ${agendamento.nome}. Gostaria de agendar no dia ${agendamento.data}, às ${agendamento.hora}.`;
-          botSendMessage(`✅ Agendamento salvo! <a href="https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}" target="_blank" style="color:#b83280;">Confirmar no WhatsApp</a>`);
+
+          botSendMessage(`✅ Agendamento salvo! <button id="confirmar-whatsapp" class="bg-pink-600 text-white px-3 py-1 rounded mt-2">Confirmar no WhatsApp</button>`);
+
+          // ⬇️ Adiciona o evento de clique no botão após ele ser renderizado
+          setTimeout(() => {
+            const confirmarBtn = document.getElementById("confirmar-whatsapp");
+            if (confirmarBtn) {
+              confirmarBtn.addEventListener("click", () => {
+                window.location.href = `https://wa.me/559295370896?text=${encodeURIComponent(msg)}`;
+              });
+            }
+          }, 100);
+
           step++;
         }
       } else {
