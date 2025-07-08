@@ -62,39 +62,24 @@ button {
 
 /* Chatbot */
 #chatbot {
-    border: 2px solid #ffe2ef;
-    animation: slideUp 0.4s ease;
-    max-width: 90vw;
-    box-sizing: border-box;
+    position: fixed;
+    bottom: 90px; /* sobe acima do botão */
+    right: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    width: 300px;
+    max-width: 90%;
+    z-index: 9998; /* menor que o botão */
+    display: none; /* oculto inicialmente */
 }
 
-@keyframes slideUp {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+#chatbot.show {
+    display: block;
 }
 
-/* Responsividade Extra */
-@media (max-width: 768px) {
-    header, section {
-        padding: 1rem;
-    }
-    .grid {
-        grid-template-columns: 1fr !important;
-    }
-    .rounded {
-        border-radius: 0.5rem;
-    }
-    #chatbot {
-        right: 1rem;
-        bottom: 5rem;
-    }
-}
 #chatbot #chat-messages {
     font-size: 14px;
     line-height: 1.4;
@@ -121,8 +106,10 @@ button {
     align-self: flex-end;
     margin-left: auto;
 }
+
+/* Horários disponíveis */
 .horario {
-    padding: 6px 12px;
+    padding: 8px 12px;
     background-color: #ffe2ef;
     border: 1px solid #b83280;
     border-radius: 6px;
@@ -130,6 +117,8 @@ button {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin: 4px;
+    text-align: center;
 }
 .horario:hover {
     background-color: #b83280;
@@ -140,4 +129,34 @@ button {
     color: #aaa;
     border-color: #ccc;
     cursor: not-allowed;
+}
+
+/* Botão do Chatbot fixado no canto inferior direito */
+#chat-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #b83280;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 9999;
+}
+
+/* Responsividade Extra */
+@media (max-width: 768px) {
+    header, section {
+        padding: 1rem;
+    }
+    .grid {
+        grid-template-columns: 1fr !important;
+    }
+    .rounded {
+        border-radius: 0.5rem;
+    }
 }
