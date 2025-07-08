@@ -1,13 +1,13 @@
+// Firebase config
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
-// Configuração Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDVV1_HKs21YNDtHoDCiHLFKjl-FIrqMCk",
   authDomain: "agendamentossobrancelha.firebaseapp.com",
   databaseURL: "https://agendamentossobrancelha-default-rtdb.firebaseio.com",
   projectId: "agendamentossobrancelha",
-  storageBucket: "agendamentossobrancelha.firebasestorage.app",
+  storageBucket: "agendamentossobrancelha.appspot.com",
   messagingSenderId: "702935577172",
   appId: "1:702935577172:web:b369bdd6c86052623df3c1"
 };
@@ -15,17 +15,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// Script principal
+
 document.addEventListener("DOMContentLoaded", () => {
   const numeroWhatsApp = "559295370896";
-
-  // === 1. Formulário de Agendamento ===
   const form = document.getElementById("form-agendamento");
   const lista = document.getElementById("agendamentos-lista");
 
-  async function atualizarLista() {
+  // Atualiza a lista de agendamentos e horários indisponíveis
+  function atualizarListaEHorarios() {
     const agRef = ref(db, "agendamentos");
     onValue(agRef, (snapshot) => {
       lista.innerHTML = "";
+      const dias = document.querySelectorAll(".horario");
+      dias.forEach(d => d.classList.remove("indisponivel"));
+
       if (!snapshot.exists()) {
         lista.innerHTML = "<li>Nenhum agendamento ainda.</li>";
         return;
@@ -36,10 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li");
         li.textContent = `⛔ ${data} às ${hora} - ${servico} (por ${nome})`;
         lista.appendChild(li);
+
+        const botaoIndisp = document.querySelector(`[data-dia='${data}'][data-hora='${hora}']`);
+        if (botaoIndisp) botaoIndisp.classList.add("indisponivel");
       });
     });
   }
 
+  // Formulário de Agendamento
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -47,42 +55,51 @@ document.addEventListener("DOMContentLoaded", () => {
       const servico = document.getElementById("servico").value;
       const data = document.getElementById("data").value;
       const hora = document.getElementById("hora").value;
-      const id = `${data}-${hora}`.replace(/[:\/]/g, "-");
 
       if (!nome || !servico || !data || !hora) {
         alert("Preencha todos os campos!");
         return;
       }
 
+      const id = `${data}-${hora}`.replace(/[:\/]/g, "-");
       const agRef = ref(db, `agendamentos/${id}`);
       const snapshot = await get(agRef);
+
       if (snapshot.exists()) {
         alert("Horário indisponível!");
         return;
       }
 
       await set(agRef, { nome, servico, data, hora });
-
-      const msg = `Olá! Meu nome é ${nome}. Gostaria de agendar "${servico}" no dia ${data}, às ${hora}.`;
+      const msg = `Olá! Meu nome é ${nome}. Gostaria de agendar \"${servico}\" no dia ${data}, às ${hora}.`;
       window.location.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`;
-
       form.reset();
     });
 
-    atualizarLista();
+    atualizarListaEHorarios();
   }
 
-  // === 2. Captura de Leads (Sorteio) ===
+  // Horários Visuais (com base em dias e horas gerados no HTML)
+  const horarios = document.querySelectorAll(".horario");
+  horarios.forEach((botao) => {
+    botao.addEventListener("click", () => {
+      if (botao.classList.contains("indisponivel")) return;
+      const dia = botao.dataset.dia;
+      const hora = botao.dataset.hora;
+      const msg = `Olá! Gostaria de agendar para o dia ${dia}, às ${hora}.`;
+      window.location.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`;
+    });
+  });
+
+  // Captura de Leads (Sorteio)
   const formSorteio = document.getElementById("form-sorteio");
   if (formSorteio) {
-    formSorteio.addEventListener("submit", function (e) {
+    formSorteio.addEventListener("submit", (e) => {
       e.preventDefault();
       const nome = formSorteio.querySelector("input[type='text']").value;
       const telefone = formSorteio.querySelector("input[type='tel']").value;
-
       const leadsRef = ref(db, `leads/${Date.now()}`);
       set(leadsRef, { nome, telefone });
-
       alert("Cadastro realizado! Boa sorte no sorteio 🎉");
       formSorteio.reset();
     });
