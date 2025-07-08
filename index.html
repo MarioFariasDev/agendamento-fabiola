@@ -23,26 +23,62 @@
   </header>
 
   <!-- SERVIÇOS -->
-  <section class="p-6" id="servicos">
-    <h2 class="text-2xl font-semibold mb-4">Serviços</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="bg-white p-4 rounded shadow">
-        <h3 class="font-bold text-lg">Design de Sobrancelhas</h3>
-        <p>R$ 40</p>
-        <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design de Sobrancelhas." class="text-pink-600 font-semibold">Agendar</a>
-      </div>
-      <div class="bg-white p-4 rounded shadow">
-        <h3 class="font-bold text-lg">Henna</h3>
-        <p>R$ 25</p>
-        <a href="https://wa.me/559295370896?text=Olá! Gostaria de agendar Henna." class="text-pink-600 font-semibold">Agendar</a>
-      </div>
-      <div class="bg-white p-4 rounded shadow">
-        <h3 class="font-bold text-lg">Design + Henna</h3>
-        <p>R$ 60</p>
-        <a href="https://wa.me/559295370896?text=Olá! Quero fazer Design com Henna." class="text-pink-600 font-semibold">Agendar</a>
-      </div>
+ <section class="p-6" id="servicos">
+  <h2 class="text-2xl font-semibold mb-4">Serviços</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Design com Henna</h3>
+      <p>R$ 45</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design com Henna." class="text-pink-600 font-semibold">Agendar</a>
     </div>
-  </section>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Design sem Henna</h3>
+      <p>R$ 35</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design sem Henna." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Brow Lamination</h3>
+      <p>R$ 95</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Brow Lamination." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Lash Lifting</h3>
+      <p>R$ 85</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Depilação Facial (Cera Fria)</h3>
+      <p>R$ 30</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Depilação Facial." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Cílios Tufos</h3>
+      <p>R$ 30</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Cílios Tufos." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <!-- Combos -->
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Design com Henna + Cílios Tufo + Buço</h3>
+      <p>R$ 75</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar o combo Design com Henna + Cílios Tufo + Buço." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Brow Lamination + Lash Lifting</h3>
+      <p>R$ 170</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Brow Lamination + Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Design Simples + Lash Lifting</h3>
+      <p>R$ 110</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design Simples + Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">Design com Henna + Lash Lifting</h3>
+      <p>R$ 120</p>
+      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design com Henna + Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
+    </div>
+  </div>
+</section>
 
   <!-- AGENDAMENTO -->
   <section class="p-4 bg-white rounded shadow my-8" id="agendamento">
@@ -50,11 +86,18 @@
     <form id="form-agendamento" class="grid gap-4 md:grid-cols-2">
       <input type="text" id="nome" placeholder="Seu nome" required />
       <select id="servico" required>
-        <option value="">Escolha o serviço</option>
-        <option value="Design de sobrancelha">Design de sobrancelha</option>
-        <option value="Design + Henna">Design + Henna</option>
-        <option value="Brow Lamination">Brow Lamination</option>
-      </select>
+  <option value="">Escolha o serviço</option>
+  <option value="Design com Henna">Design com Henna</option>
+  <option value="Design sem Henna">Design sem Henna</option>
+  <option value="Brow Lamination">Brow Lamination</option>
+  <option value="Lash Lifting">Lash Lifting</option>
+  <option value="Depilação Facial (Cera Fria)">Depilação Facial (Cera Fria)</option>
+  <option value="Cílios Tufos">Cílios Tufos</option>
+  <option value="Design com Henna + Cílios Tufo + Buço">Combo 1</option>
+  <option value="Brow Lamination + Lash Lifting">Combo 2</option>
+  <option value="Design Simples + Lash Lifting">Combo 3</option>
+  <option value="Design com Henna + Lash Lifting">Combo 4</option>
+</select>
       <input type="date" id="data" required />
       <input type="time" id="hora" required />
       <button type="submit" class="col-span-full bg-pink-600 text-white py-2 rounded">Agendar via WhatsApp</button>
