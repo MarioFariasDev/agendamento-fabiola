@@ -1,205 +1,105 @@
-// Firebase config
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  get,
+  query,
+  orderByChild,
+  equalTo
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
+// Configuração do Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyDVV1_HKs21YNDtHoDCiHLFKjl-FIrqMCk",
-  authDomain: "agendamentossobrancelha.firebaseapp.com",
-  databaseURL: "https://agendamentossobrancelha-default-rtdb.firebaseio.com",
-  projectId: "agendamentossobrancelha",
-  storageBucket: "agendamentossobrancelha.appspot.com",
-  messagingSenderId: "702935577172",
-  appId: "1:702935577172:web:b369bdd6c86052623df3c1"
+  apiKey: "AIzaSyADhEERMf_qURcrMzTPwPatpKjDR777KcI",
+  authDomain: "agendadesignsobrancelhas-ddb64.firebaseapp.com",
+  projectId: "agendadesignsobrancelhas-ddb64",
+  storageBucket: "agendadesignsobrancelhas-ddb64.firebasestorage.app",
+  messagingSenderId: "182046606434",
+  appId: "1:182046606434:web:2e6148120c0d848fb1fd3b"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Script principal
+const form = document.getElementById("formAgendamento");
+const horarioSelect = document.getElementById("horario");
+const dataInput = document.getElementById("data");
+const mensagem = document.getElementById("mensagem");
 
-document.addEventListener("DOMContentLoaded", () => {
-  const numeroWhatsApp = "559295370896";
-  const form = document.getElementById("form-agendamento");
-  const lista = document.getElementById("agendamentos-lista");
+// Função para gerar horários por dia da semana
+function gerarHorarios(diaDaSemana) {
+  const horarios = [];
+  const add = (h, m) =>
+      horarios.push(`${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`);
 
-  // Atualiza a lista de agendamentos e horários indisponíveis
-  function atualizarListaEHorarios() {
-    const agRef = ref(db, "agendamentos");
-    onValue(agRef, (snapshot) => {
-      lista.innerHTML = "";
-      const dias = document.querySelectorAll(".horario");
-      dias.forEach(d => d.classList.remove("indisponivel"));
-
-      if (!snapshot.exists()) {
-        lista.innerHTML = "<li>Nenhum agendamento ainda.</li>";
-        return;
-      }
-
-      const dados = snapshot.val();
-      Object.values(dados).forEach(({ nome, servico, data, hora }) => {
-        const li = document.createElement("li");
-        li.textContent = `⛔ ${data} às ${hora} - ${servico} (por ${nome})`;
-        lista.appendChild(li);
-
-        const botaoIndisp = document.querySelector(`[data-dia='${data}'][data-hora='${hora}']`);
-        if (botaoIndisp) botaoIndisp.classList.add("indisponivel");
-      });
-    });
+  if (diaDaSemana >= 1 && diaDaSemana <= 5) {
+    // Segunda a sexta
+    for (let h = 7; h < 12; h++) add(h, 30), add(h + 1, 0);
+    for (let h = 13; h < 18; h++) add(h, 0), add(h, 30);
+  } else if (diaDaSemana === 6) {
+    // Sábado
+    for (let h = 7; h <= 11; h++) add(h, 30), add(h + 1, 0);
+    add(12, 30);
   }
 
-  // Formulário de Agendamento
-  if (form) {
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const nome = document.getElementById("nome").value.trim();
-      const servico = document.getElementById("servico").value;
-      const data = document.getElementById("data").value;
-      const hora = document.getElementById("hora").value;
+  return horarios;
+}
 
-      if (!nome || !servico || !data || !hora) {
-        alert("Preencha todos os campos!");
-        return;
-      }
+// Ao escolher uma data, carregar os horários disponíveis
+dataInput.addEventListener("change", async () => {
+  const dataSelecionada = dataInput.value;
+  const diaSemana = new Date(dataSelecionada).getDay();
+  const todosHorarios = gerarHorarios(diaSemana);
 
-      const id = `${data}-${hora}`.replace(/[:\/]/g, "-");
-      const agRef = ref(db, `agendamentos/${id}`);
-      const snapshot = await get(agRef);
+  const agendadosRef = query(ref(db, "agendamentos"), orderByChild("data"), equalTo(dataSelecionada));
+  const snapshot = await get(agendadosRef);
 
-      if (snapshot.exists()) {
-        alert("Horário indisponível!");
-        return;
-      }
-
-      await set(agRef, { nome, servico, data, hora });
-      const msg = `Olá! Meu nome é ${nome}. Gostaria de agendar \"${servico}\" no dia ${data}, às ${hora}.`;
-      window.location.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`;
-      form.reset();
-    });
-
-    atualizarListaEHorarios();
+  const horariosOcupados = [];
+  if (snapshot.exists()) {
+    snapshot.forEach(child => horariosOcupados.push(child.val().horario));
   }
 
-  // Horários Visuais (com base em dias e horas gerados no HTML)
-  const horarios = document.querySelectorAll(".horario");
-  horarios.forEach((botao) => {
-    botao.addEventListener("click", () => {
-      if (botao.classList.contains("indisponivel")) return;
-      const dia = botao.dataset.dia;
-      const hora = botao.dataset.hora;
-      const msg = `Olá! Gostaria de agendar para o dia ${dia}, às ${hora}.`;
-      window.location.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`;
-    });
+  horarioSelect.innerHTML = "";
+  todosHorarios.forEach(h => {
+    if (!horariosOcupados.includes(h)) {
+      const option = document.createElement("option");
+      option.value = h;
+      option.textContent = h;
+      horarioSelect.appendChild(option);
+    }
   });
 
-  // Captura de Leads (Sorteio)
-  const formSorteio = document.getElementById("form-sorteio");
-  if (formSorteio) {
-    formSorteio.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const nome = formSorteio.querySelector("input[type='text']").value;
-      const telefone = formSorteio.querySelector("input[type='tel']").value;
-      const leadsRef = ref(db, `leads/${Date.now()}`);
-      set(leadsRef, { nome, telefone });
-      alert("Cadastro realizado! Boa sorte no sorteio 🎉");
-      formSorteio.reset();
-    });
+  if (horarioSelect.options.length === 0) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.disabled = true;
+    option.textContent = "Todos os horários estão preenchidos";
+    horarioSelect.appendChild(option);
   }
+});
 
-  // === 3. Chatbot ===
-  const chatbot = document.getElementById("chatbot");
-  const chatToggleBtn = document.getElementById("chat-toggle-btn");
-  const chatMessages = document.getElementById("chat-messages");
-  const chatInput = document.getElementById("chat-input");
-  const chatSendBtn = document.getElementById("chat-send-btn");
+// Submeter o formulário
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  let step = 0;
-  let agendamento = { nome: "", data: "", hora: "" };
+  const agendamento = {
+    nome: form.nome.value.trim(),
+    whatsapp: form.whatsapp.value.trim(),
+    servico: form.servico.value,
+    data: form.data.value,
+    horario: form.horario.value
+  };
 
-  function botSendMessage(message) {
-    const msgDiv = document.createElement("div");
-    msgDiv.classList.add("bot-message");
-    msgDiv.innerHTML = message;
-    chatMessages.appendChild(msgDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
+  // Salvar no Firebase
+  await push(ref(db, "agendamentos"), agendamento);
 
-  function userSendMessage(message) {
-    const msgDiv = document.createElement("div");
-    msgDiv.classList.add("user-message");
-    msgDiv.textContent = message;
-    chatMessages.appendChild(msgDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
+  // Mostrar mensagem de sucesso
+  mensagem.classList.remove("hidden");
+  setTimeout(() => mensagem.classList.add("hidden"), 5000);
 
-  function startChat() {
-    step = 0;
-    agendamento = { nome: "", data: "", hora: "" };
-    chatMessages.innerHTML = "";
-    botSendMessage("Olá! Qual seu nome?");
-  }
-
-  if (chatToggleBtn) {
-    chatToggleBtn.addEventListener("click", () => {
-      chatbot.classList.toggle("hidden");
-      if (!chatbot.classList.contains("hidden")) {
-        startChat();
-      }
-    });
-  }
-
-  if (chatSendBtn) {
-    chatSendBtn.addEventListener("click", async () => {
-      const userMsg = chatInput.value.trim();
-      if (!userMsg) return;
-      userSendMessage(userMsg);
-      chatInput.value = "";
-
-      if (step === 0) {
-        agendamento.nome = userMsg;
-        botSendMessage(`Oi ${agendamento.nome}! Qual data deseja? (ex: 2025-07-10)`);
-        step++;
-      } else if (step === 1) {
-        agendamento.data = userMsg;
-        botSendMessage("E o horário? (ex: 14:00)");
-        step++;
-      } else if (step === 2) {
-        agendamento.hora = userMsg;
-        const id = `${agendamento.data}-${agendamento.hora}`.replace(/[:\/]/g, "-");
-        const snapshot = await get(ref(db, `agendamentos/${id}`));
-
-        if (snapshot.exists()) {
-          botSendMessage("Esse horário já está agendado 😞. Tente outro.");
-        } else {
-          await set(ref(db, `agendamentos/${id}`), {
-            nome: agendamento.nome,
-            data: agendamento.data,
-            hora: agendamento.hora,
-            servico: "Via Chatbot"
-          });
-
-          const msg = `Olá! Meu nome é ${agendamento.nome}. Gostaria de agendar no dia ${agendamento.data}, às ${agendamento.hora}.`;
-
-          botSendMessage(`✅ Agendamento salvo! <button id="confirmar-whatsapp" class="bg-pink-600 text-white px-3 py-1 rounded mt-2">Confirmar no WhatsApp</button>`);
-
-          // ⬇️ Adiciona o evento de clique no botão após ele ser renderizado
-          setTimeout(() => {
-            const confirmarBtn = document.getElementById("confirmar-whatsapp");
-            if (confirmarBtn) {
-              confirmarBtn.addEventListener("click", () => {
-                window.location.href = `https://wa.me/559295370896?text=${encodeURIComponent(msg)}`;
-              });
-            }
-          }, 100);
-
-          step++;
-        }
-      } else {
-        botSendMessage("Se precisar de mais alguma coisa, estou aqui 💖");
-      }
-    });
-
-    chatInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") chatSendBtn.click();
-    });
-  }
+  // Redirecionar para WhatsApp
+  const texto = `Olá, me chamo *${agendamento.nome}* e gostaria de confirmar o agendamento para *${agendamento.servico}* no dia *${agendamento.data}* às *${agendamento.horario}h*.`;
+  const linkWhatsApp = `https://wa.me/559295370896?text=${encodeURIComponent(texto)}`;
+  window.location.href = linkWhatsApp;
 });
