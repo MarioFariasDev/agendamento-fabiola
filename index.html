@@ -3,155 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fabiola Alcântara | Designer de Sobrancelhas</title>
-
-  <!-- Tailwind CSS + Estilo personalizado -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Firebase + Script -->
-  <script type="module" src="script.js" defer></script>
+  <title>Agendamento - Fabiola Alcântara</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-pink-50 text-gray-800 font-[Poppins]">
+<body>
+  <section class="container">
+    <h2>Agende seu horário</h2>
+    <form id="formAgendamento">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" required />
 
-  <!-- HERO -->
-  <header class="bg-pink-200 p-6 text-center">
-    <h1 class="text-3xl font-bold">Fabiola Alcântara</h1>
-    <p class="text-lg">Designer de Sobrancelhas | Realce sua beleza natural</p>
-    <a href="#agendamento" class="mt-4 inline-block bg-pink-600 text-white px-4 py-2 rounded">Agendar agora</a>
-  </header>
+      <label for="whatsapp">WhatsApp:</label>
+      <input type="tel" id="whatsapp" required />
 
-  <!-- SERVIÇOS -->
- <section class="p-6" id="servicos">
-  <h2 class="text-2xl font-semibold mb-4">Serviços</h2>
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Design com Henna</h3>
-      <p>R$ 45</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design com Henna." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Design sem Henna</h3>
-      <p>R$ 35</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design sem Henna." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Brow Lamination</h3>
-      <p>R$ 95</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Brow Lamination." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Lash Lifting</h3>
-      <p>R$ 85</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Depilação Facial (Cera Fria)</h3>
-      <p>R$ 30</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Depilação Facial." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Cílios Tufos</h3>
-      <p>R$ 30</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Cílios Tufos." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <!-- Combos -->
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Design com Henna + Cílios Tufo + Buço</h3>
-      <p>R$ 75</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar o combo Design com Henna + Cílios Tufo + Buço." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Brow Lamination + Lash Lifting</h3>
-      <p>R$ 170</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Brow Lamination + Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Design Simples + Lash Lifting</h3>
-      <p>R$ 110</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design Simples + Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-bold text-lg">Design com Henna + Lash Lifting</h3>
-      <p>R$ 120</p>
-      <a href="https://wa.me/559295370896?text=Olá! Quero agendar Design com Henna + Lash Lifting." class="text-pink-600 font-semibold">Agendar</a>
-    </div>
-  </div>
-</section>
-
-  <!-- AGENDAMENTO -->
-  <section class="p-4 bg-white rounded shadow my-8" id="agendamento">
-    <h2 class="text-xl font-bold text-pink-700 mb-4">Agendamento</h2>
-    <form id="form-agendamento" class="grid gap-4 md:grid-cols-2">
-      <input type="text" id="nome" placeholder="Seu nome" required />
+      <label for="servico">Serviço desejado:</label>
       <select id="servico" required>
-  <option value="">Escolha o serviço</option>
-  <option value="Design com Henna">Design com Henna</option>
-  <option value="Design sem Henna">Design sem Henna</option>
-  <option value="Brow Lamination">Brow Lamination</option>
-  <option value="Lash Lifting">Lash Lifting</option>
-  <option value="Depilação Facial (Cera Fria)">Depilação Facial (Cera Fria)</option>
-  <option value="Cílios Tufos">Cílios Tufos</option>
-  <option value="Design com Henna + Cílios Tufo + Buço">Combo 1</option>
-  <option value="Brow Lamination + Lash Lifting">Combo 2</option>
-  <option value="Design Simples + Lash Lifting">Combo 3</option>
-  <option value="Design com Henna + Lash Lifting">Combo 4</option>
-</select>
+        <option value="" disabled selected>Selecione um serviço</option>
+        <option value="Design com Henna – R$45">Design com Henna – R$45</option>
+        <option value="Design sem Henna – R$35">Design sem Henna – R$35</option>
+        <option value="Brow Lamination – R$95">Brow Lamination – R$95</option>
+        <option value="Lash Lifting – R$85">Lash Lifting – R$85</option>
+        <option value="Depilação Facial (Cera Fria) – R$30">Depilação Facial (Cera Fria) – R$30</option>
+        <option value="Cílios Tufos – R$30">Cílios Tufos – R$30</option>
+        <option value="Design com Henna + Cílios Tufo + Buço – R$75">Design com Henna + Cílios Tufo + Buço – R$75</option>
+        <option value="Brow Lamination + Lash Lifting – R$170">Brow Lamination + Lash Lifting – R$170</option>
+        <option value="Design Simples + Lash Lifting – R$110">Design Simples + Lash Lifting – R$110</option>
+        <option value="Design com Henna + Lash Lifting – R$120">Design com Henna + Lash Lifting – R$120</option>
+      </select>
+
+      <label for="data">Data:</label>
       <input type="date" id="data" required />
-      <input type="time" id="hora" required />
-      <button type="submit" class="col-span-full bg-pink-600 text-white py-2 rounded">Agendar via WhatsApp</button>
+
+      <label for="horario">Horário:</label>
+      <select id="horario" required></select>
+
+      <button type="submit">Agendar</button>
     </form>
 
-    <div class="mt-6">
-      <h3 class="text-pink-700 font-semibold mb-2">Horários já agendados</h3>
-      <ul id="agendamentos-lista" class="text-sm text-gray-700 space-y-1"></ul>
+    <div id="mensagem" class="sucesso hidden">
+      Agendamento realizado com sucesso! Você será redirecionado para o WhatsApp.
     </div>
   </section>
 
-  <!-- GALERIA -->
-  <section class="p-6" id="galeria">
-    <h2 class="text-2xl font-semibold mb-4">Antes e Depois</h2>
-    <div class="grid md:grid-cols-3 gap-4">
-      <img src="img/antes1.jpg" alt="Antes" class="rounded shadow">
-      <img src="img/depois1.jpg" alt="Depois" class="rounded shadow">
-      <img src="img/antes2.jpg" alt="Antes" class="rounded shadow">
-      <img src="img/depois2.jpg" alt="Depois" class="rounded shadow">
-    </div>
-  </section>
+  <!-- Em breve: Galeria de fotos antes e depois -->
 
-  <!-- LINKTREE -->
-  <section class="p-6 bg-pink-100" id="linktree">
-    <h2 class="text-2xl font-semibold mb-4">Meus Canais</h2>
-    <div class="flex flex-col gap-3">
-      <a href="https://wa.me/559295370896" class="bg-white p-2 rounded shadow">WhatsApp</a>
-      <a href="https://instagram.com/SEUPERFIL" class="bg-white p-2 rounded shadow">Instagram</a>
-      <a href="mailto:seuemail@email.com" class="bg-white p-2 rounded shadow">Email</a>
-    </div>
-  </section>
-
-  <!-- SORTEIO -->
-  <section class="p-6" id="sorteio">
-    <h2 class="text-2xl font-semibold mb-4">Participe do Sorteio!</h2>
-    <form id="form-sorteio" class="bg-white p-4 rounded shadow grid gap-4">
-      <input type="text" placeholder="Nome completo" class="p-2 border rounded" required>
-      <input type="tel" placeholder="WhatsApp" class="p-2 border rounded" required>
-      <button class="bg-pink-600 text-white px-4 py-2 rounded">Participar</button>
-    </form>
-  </section>
-
-  <!-- CHATBOT -->
-  <div id="chatbot" class="fixed right-4 bottom-20 bg-white p-4 rounded shadow w-72 hidden z-40">
-    <p class="font-semibold">Oi! Posso te ajudar?</p>
-    <div id="chat-messages" class="my-2 max-h-40 overflow-y-auto text-sm"></div>
-    <div class="flex mt-2 gap-2">
-      <input type="text" id="chat-input" placeholder="Digite sua mensagem..." class="flex-1 p-2 border rounded">
-      <button id="chat-send-btn" class="bg-pink-600 text-white px-3 rounded">Enviar</button>
-    </div>
-  </div>
-
-  <button id="chat-toggle-btn"
-    class="fixed right-4 bottom-4 bg-pink-600 text-white px-4 py-2 rounded-full shadow-lg z-50"
-    aria-label="Abrir chat">💬</button>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
